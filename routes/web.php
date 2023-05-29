@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/api/docs/swagger.json', function () {
+    $openapi = \OpenApi\scan(app_path('Http/Controllers/Api'));
+    return $openapi->toJson();
+});
 Route::get('/', function () {
     return view('welcome');
 });

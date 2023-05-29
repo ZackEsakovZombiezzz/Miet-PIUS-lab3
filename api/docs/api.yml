@@ -1,0 +1,223 @@
+openapi: 3.0.0
+info:
+  title: Game Review API
+  version: 1.0.0
+servers:
+  - url: http://u8202108-lab3.local
+paths:
+  /games:
+    get:
+      summary: List of games
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Add a new game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+        required: true
+      responses:
+        '201':
+          description: Created
+      tags:
+        - games
+  /games/{id}:
+    get:
+      summary: Return a game by ID
+      parameters:
+        - in: path
+          name: id
+          description: Game ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Game not found
+      tags:
+        - games
+    put:
+      summary: Update an existing game
+      parameters:
+        - in: path
+          name: id
+          description: Game ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Game not found
+      tags:
+        - games
+    delete:
+      summary: Delete a game
+      parameters:
+        - in: path
+          name: id
+          description: Game ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '404':
+          description: Game not found
+      tags:
+        - games
+  /reviews:
+    get:
+      summary: List of reviews
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Add a new review
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        '201':
+          description: Created
+      tags:
+        - reviews
+  /reviews/{id}:
+    get:
+      summary: Return a review by ID
+      parameters:
+        - in: path
+          name: id
+          description: Review ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Review not found
+      tags:
+        - reviews
+    put:
+      summary: Update an existing review
+      parameters:
+        - in: path
+          name: id
+          description: Review ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Review not found
+      tags:
+        - reviews
+    patch:
+      summary: Update a review rating
+      parameters:
+        - in: path
+          name: id
+          description: Review ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: integer
+                  minimum: 0
+                  maximum: 5
+        required: true
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Review not found
+      tags:
+        - reviews
+    delete:
+      summary: Delete a review
+      parameters:
+        - in: path
+          name: id
+          description: Review ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '404':
+          description: Review not found
+      tags:
+        - reviews
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: "The Last of Us Part II"
+        developer:
+          type: string
+          example: "Naughty Dog"
+        publisher:
+          type: string
+          example: "Sony Interactive Entertainment"
+      required:
+        - name
+        - developer
+        - publisher
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+        game_id:
+          type: string
+        author:
+          type: string
+          example: "John Smith"
+        content:
+          type: string
+        rating:
+          type: integer
+          minimum: 0
+          maximum: 5
+      required:
+        - game_id
+        - author
+        - content
+        - rating
